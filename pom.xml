@@ -15,7 +15,7 @@
     <repositories>
         <repository>
             <id>neotax-repository</id>
-            <url>https://github.com/cerebis/neotax/tree/master/mzd/github/neotax</url>
+            <url>https://github.com/cerebis/neotax/raw/master</url>
         </repository>
     </repositories>
 
