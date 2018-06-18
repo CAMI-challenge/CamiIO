@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  * CAMI Challenge IO
  * <p/>
  * This class serves as the basis for reading and writing CAMI Challenge file
- * formats. These files are tab-delimited data with a preceeding header.
+ * formats. These files are tab-delimited data with a preceding header.
  * <p/>
  * Information in the header can be declared mandatory and is checked on read
  * and write.
@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
  * @author Matthew DeMaere
  */
 public abstract class Base {
-
     // reserved symbols
     protected final static String HEADER_COMMENT = "#CAMI Format for Binning";
     protected final static String COMMENT_CHAR = "#";
@@ -97,13 +96,10 @@ public abstract class Base {
      *
      * @param vals - strings to join
      * @return
+     * @deprecated Use String.join(DELIMITER, vals) directly!
      */
     protected static String join(String[] vals) {
-        StringBuffer buff = new StringBuffer();
-        for (String s : vals) {
-            buff.append(s + DELIMITER);
-        }
-        return buff.toString().trim();
+        return String.join(DELIMITER, vals);
     }
 
     /**
@@ -117,9 +113,8 @@ public abstract class Base {
      * automatically closed.
      */
     public static abstract class Writer {
-
         private BufferedWriter writer = null;
-        private Map<String, String> headerInfo = new HashMap<String, String>();
+        private Map<String, String> headerInfo = new HashMap<>();
         private String[] columnDefinition;
         private boolean headerWritten;
         private Logger logger = LoggerFactory.getLogger(getClass());
@@ -133,9 +128,7 @@ public abstract class Base {
          * @param create          - create the file.
          * @throws IOException
          */
-        protected Writer(String fileName, String[] columnDefintion,
-                         boolean create) throws IOException {
-
+        protected Writer(String fileName, String[] columnDefintion, boolean create) throws IOException {
             this.headerInfo.put(TASK_KEY, "");
             this.headerInfo.put(VERSION_KEY, "");
             this.headerInfo.put(CONID_KEY, "");
@@ -144,8 +137,7 @@ public abstract class Base {
 
             // File file = new File(fileName);
             if (create) {
-                this.writer = new BufferedWriter(
-                        new FileWriter(fileName, false));
+                this.writer = new BufferedWriter(new FileWriter(fileName, false));
             }
             this.headerWritten = false;
         }
@@ -296,7 +288,6 @@ public abstract class Base {
      * {@link #readRow()} The file is not automatically closed.
      */
     public static abstract class Reader {
-
         public boolean isTaxPathSnUsed = false;
         protected int lineNumber = 0;
         protected BufferedReader reader = null;
@@ -422,10 +413,8 @@ public abstract class Base {
          * @throws HeaderException error while parsing the line
          */
         protected void parseHeaderLine(String line) throws HeaderException {
-            if (line.length() < 4
-                    || StringUtils.countMatches(line, HEADER_SEP) != 1) {
-                throw new HeaderException(String.format(
-                        "malformed header line [%s]", line));
+            if (line.length() < 4 || StringUtils.countMatches(line, HEADER_SEP) != 1) {
+                throw new HeaderException(String.format("malformed header line [%s]", line));
             }
 
             String[] tok = line.substring(1).split(HEADER_SEP);
@@ -459,9 +448,7 @@ public abstract class Base {
             this.headerInfo.put(key.toLowerCase(), value);
 
             // check against the those fields which have declared support
-            for (Map.Entry<String, List<String>> entry : this.supports
-                    .entrySet()) {
-
+            for (Map.Entry<String, List<String>> entry : this.supports.entrySet()) {
 //                logger.info("Entrykey: " + entry.getKey());
 //                logger.info("normal key: " + key);
                 if (key.equals(VERSION_KEY)) {
@@ -489,8 +476,6 @@ public abstract class Base {
                                     this.lineNumber, line) + " Custom types MUST be prefixed " +
                                     "by a case-insensitive string with an underscore before and after the string ");
                 }
-
-
 //                else if (key.equals(entry.getKey())
 //                             && !entry.getValue().contains(value) && ) {
 //                    throw new HeaderException(
@@ -594,8 +579,7 @@ public abstract class Base {
          */
         public String getInfo(String key) throws HeaderException {
             if (!this.headerInfo.containsKey(key)) {
-                throw new HeaderException(String.format(
-                        "header did not contain a field %s", key));
+                throw new HeaderException(String.format("header did not contain a field %s", key));
             }
             return this.headerInfo.get(key);
         }
@@ -677,8 +661,10 @@ public abstract class Base {
         }
     }
 
+    /**
+     * Parses a string either as double or int and returns the integer value.
+     */
     public static Integer toInt(String str) throws NumberFormatException {
-        String finalString = str;
         int intTaxId;
         if (str.contains(".")) {
             intTaxId = (int) Double.parseDouble(str);
@@ -688,10 +674,10 @@ public abstract class Base {
         return intTaxId;
     }
 
-    public static List<Integer> toIntList(String str, String delim) {
-        List<Integer> intList = new ArrayList<Integer>();
-        String[] tokens = str.split(delim);
-        if (tokens != null) {
+    public static List<Integer> toIntList(String str, String delimiter) {
+        List<Integer> intList = new ArrayList<>();
+        if (str != null) {
+            String[] tokens = str.split(delimiter);
             for (String s : tokens) {
                 boolean isInt = true;
                 try {
@@ -700,11 +686,10 @@ public abstract class Base {
                     isInt = false;
                 }
                 if (isInt) {
-                    intList.add((int)Double.parseDouble(s));
+                    intList.add((int) Double.parseDouble(s));
                 }
             }
         }
         return intList;
     }
-
 }

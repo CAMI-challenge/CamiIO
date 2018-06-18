@@ -12,7 +12,6 @@ import java.util.List;
  * Concrete implementation of the Taxonomic Profile format.
  */
 public class Profile extends Base {
-
     // Profile constants
     private final static String PRO_TASK = "profiling";
     private final static String PRO_VERSION_SUPPORT[] = {"0.9"};
@@ -58,7 +57,6 @@ public class Profile extends Base {
      * Profile Reader without any validation of underlying taxonomic ids or lineages.
      */
     public static class Reader extends Base.Reader {
-
         public Reader(String fileName, Boolean checkHeader) throws ParseException, IOException {
             super(fileName, PRO_TASK, PRO_VERSION_SUPPORT,
                     PRO_MANDATORY_FIELDS, checkHeader);
@@ -82,27 +80,21 @@ public class Profile extends Base {
         // a local neoDao instance will be shutdown with close()
         private boolean localNeoDao = false;
 
-
-        public ValidatingReader(String fileName, NeoDao neoDao,
-                                Boolean checkHeader) throws ParseException, IOException {
-
-            super(fileName, PRO_TASK, PRO_VERSION_SUPPORT,
-                    PRO_MANDATORY_FIELDS, checkHeader);
+        public ValidatingReader(String fileName, NeoDao neoDao, Boolean checkHeader)
+                throws ParseException, IOException {
+            super(fileName, PRO_TASK, PRO_VERSION_SUPPORT, PRO_MANDATORY_FIELDS, checkHeader);
             this.neoDao = neoDao;
         }
 
-        public ValidatingReader(String fileName, String neoDBPath,
-                                Boolean checkHeader) throws ParseException, IOException {
-
-            super(fileName, PRO_TASK, PRO_VERSION_SUPPORT,
-                    PRO_MANDATORY_FIELDS, checkHeader);
+        public ValidatingReader(String fileName, String neoDBPath, Boolean checkHeader)
+                throws ParseException, IOException {
+            super(fileName, PRO_TASK, PRO_VERSION_SUPPORT, PRO_MANDATORY_FIELDS, checkHeader);
             this.neoDao = new NeoDao(new File(neoDBPath));
             this.localNeoDao = true;
         }
 
         @Override
         public String[] readRow() throws ParseException, IOException {
-
             String[] values = super.readRow();
             if (values == null) {
                 // end of file reached
@@ -229,5 +221,4 @@ public class Profile extends Base {
             return neoDao;
         }
     }
-
 }

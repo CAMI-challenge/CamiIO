@@ -76,7 +76,7 @@ public class Binning extends Base {
         }
 
         public boolean isReferenceBased() {
-            return getHeaderInfo().get(REFBASED_KEY) == "T" ? true : false;
+            return getHeaderInfo().get(REFBASED_KEY) == "T";
         }
 
         public void setAssemblyBased(boolean val) {
@@ -84,7 +84,7 @@ public class Binning extends Base {
         }
 
         public boolean isAssemblyBased() {
-            return getHeaderInfo().get(ASMBASED_KEY) == "T" ? true : false;
+            return getHeaderInfo().get(ASMBASED_KEY) == "T";
         }
 
         public void setReplicateInfo(boolean val) {
@@ -92,7 +92,7 @@ public class Binning extends Base {
         }
 
         public boolean isReplicateInfo() {
-            return getHeaderInfo().get(REPINFO_KEY) == "T" ? true : false;
+            return getHeaderInfo().get(REPINFO_KEY) == "T";
         }
     }
 
@@ -100,9 +100,7 @@ public class Binning extends Base {
      * Reader for CAMI Binning format
      */
     public static class Reader extends Base.Reader {
-
         public Reader(String fileName, Boolean checkHeader) throws ParseException, IOException {
-
             super(fileName, BIN_TASK, BIN_VERSION_SUPPORT, BIN_MANDATORY_FIELDS, checkHeader);
         }
 
@@ -116,14 +114,14 @@ public class Binning extends Base {
 
         private static int taxIDIndex = -1;
 
-        public ValidatingReader(String fileName, NeoDao neoDao,
-                                Boolean checkHeader) throws ParseException, IOException {
+        public ValidatingReader(String fileName, NeoDao neoDao, Boolean checkHeader)
+                throws ParseException, IOException {
             super(fileName, BIN_TASK, BIN_VERSION_SUPPORT, BIN_MANDATORY_FIELDS, checkHeader);
             this.neoDao = neoDao;
         }
 
-        public ValidatingReader(String fileName, String neoDBPath,
-                                Boolean checkHeader) throws ParseException, IOException {
+        public ValidatingReader(String fileName, String neoDBPath, Boolean checkHeader)
+                throws ParseException, IOException {
             super(fileName, BIN_TASK, BIN_VERSION_SUPPORT, BIN_MANDATORY_FIELDS, checkHeader);
             this.neoDao = new NeoDao(new File(neoDBPath));
             this.localNeoDao = true;
@@ -156,7 +154,6 @@ public class Binning extends Base {
                 throw new HeaderException("");
             }
 
-
             for (String col : columnDefinition) {
                 if (!col.equals(BINID) && !col.equals(TAXID) && !col.equals(SEQUENCEID)
                         && !col.matches("_[A-Za-z]*_[A-Za-z]+[A-Za-z0-9]*")) {
@@ -170,7 +167,6 @@ public class Binning extends Base {
 
         @Override
         public String[] readRow() throws ParseException, IOException {
-
             String[] values = super.readRow();
             if (values != null) {
                 if (taxIDIndex != -1) {
@@ -214,5 +210,4 @@ public class Binning extends Base {
             return neoDao;
         }
     }
-
 }
