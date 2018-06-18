@@ -1,0 +1,11 @@
+@SampleID:test
+@Version:0.9.1
+@Ranks: superkingdom|phylum|class|order|family|genus|species|strain
+
+@@TAXID	RANK	TAXPATH	TAXPATHSN	PERCENTAGE
+2	superkingdom	2	Bacteria	99.5060
+2157	superkingdom	2157	Archaea	0.4940
+1117	phylum	2|1117	Bacteria|Cyanobacteria	1.5269
+1224	phylum	2|1224	Bacteria|Proteobacteria	31.7641
+1239	phylum	2|1239	Bacteria|Firmicutes	28.1564
+1046595	strain	2|1239|91061|186826|33958|1578|152335|1046595.1	Bacteria|Firmicutes|Bacilli|Lactobacillales|Lactobacillaceae|Lactobacillus|Lactobacillus suebicus|Lactobacillus suebicus	DSM 5007 = KCTC 3549 strain
