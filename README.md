@@ -1,5 +1,6 @@
 # CamiIO
 
+[![](https://jitpack.io/v/pbelmann/CamiIO.svg)](https://jitpack.io/#pbelmann/CamiIO)
 
 ## Compile, Build & Package
 
