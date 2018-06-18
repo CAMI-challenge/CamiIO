@@ -11,8 +11,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ConcatReaderTest extends TestResources{
-
+public class ConcatReaderTest extends TestResources {
     private static NeoDao neoDao = null;
 
     @BeforeClass
@@ -29,9 +28,7 @@ public class ConcatReaderTest extends TestResources{
 
     @Test
     public void testProfileValid() throws Base.ParseException, IOException {
-
-        Profile.ValidatingReader pr = new Profile.ValidatingReader(
-                RESOURCE_PATH + "profile-valid.txt", neoDao, true);
+        Profile.ValidatingReader pr = new Profile.ValidatingReader(RESOURCE_PATH + "profile-valid.txt", neoDao, true);
         int rc = 0;
         String[] row;
         while ((row = pr.readRow()) != null) {
@@ -43,9 +40,7 @@ public class ConcatReaderTest extends TestResources{
 
     @Test
     public void testConcatProfileValid() throws Base.ParseException, IOException {
-
-        ConcatProfilingIter prIter = new ConcatProfilingIter(
-                RESOURCE_PATH + "concat-profile-valid.txt", neoDao, true);
+        ConcatProfilingIter prIter = new ConcatProfilingIter(RESOURCE_PATH + "concat-profile-valid.txt", neoDao, true);
         int rc = 0;
         String[] row;
         while ((row = prIter.readRow()) != null) {
@@ -57,7 +52,6 @@ public class ConcatReaderTest extends TestResources{
 
     @Test()
     public void canDetectLongConcatProfileVersion() throws Base.ParseException, IOException {
-
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-valid-long-version.txt", neoDao, true);
         int rc = 0;
@@ -69,10 +63,8 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
-
     @Test
     public void testConcatProfileMinValid() throws Base.ParseException, IOException {
-
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-min-valid.txt", neoDao, true);
         int rc = 0;
@@ -84,7 +76,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
-   // @Test(expected = Base.HeaderException.class)
+    // @Test(expected = Base.HeaderException.class)
     public void canDetectMissingSampleId() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-missing-sampleId.txt", neoDao, true);
@@ -96,7 +88,7 @@ public class ConcatReaderTest extends TestResources{
         System.out.println(rc);
     }
 
-  //  @Test(expected = Base.HeaderException.class)
+    //  @Test(expected = Base.HeaderException.class)
     public void canDetectMissingVersion() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-missing-version.txt", neoDao, true);
@@ -108,7 +100,7 @@ public class ConcatReaderTest extends TestResources{
         System.out.println(rc);
     }
 
-   // @Test(expected = Base.HeaderException.class)
+    // @Test(expected = Base.HeaderException.class)
     public void canDetectWrongVersion() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-missing-version.txt", neoDao, true);
@@ -120,7 +112,7 @@ public class ConcatReaderTest extends TestResources{
         System.out.println(rc);
     }
 
-  //  @Test(expected = Base.FieldException.class)
+    //  @Test(expected = Base.FieldException.class)
     public void canDetectInvalidProfilingTAXPATH() throws Base.ParseException, IOException {
 
         Profile.ValidatingReader pr = new Profile.ValidatingReader(
@@ -157,7 +149,6 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
-
     @Test
     public void testConcatProfileWithTaxonomyId() throws Base.ParseException, IOException {
 
@@ -172,7 +163,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
-  //  @Test(expected = Base.FieldException.class)
+    //  @Test(expected = Base.FieldException.class)
     public void testConcatProfileWithWrongRank() throws Base.ParseException, IOException {
 
         ConcatProfilingIter prIter = new ConcatProfilingIter(
@@ -185,7 +176,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
- //   @Test(expected = Base.HeaderException.class)
+    //   @Test(expected = Base.HeaderException.class)
     public void testConcatProfileWithWrongRanks() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-invalid-wrong-ranks.txt", neoDao, true);
@@ -197,7 +188,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
- //   @Test(expected = Base.FieldException.class)
+    //   @Test(expected = Base.FieldException.class)
     public void testConcatProfileNoValueInTaxpath() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-no-value-in-taxpath.txt", neoDao, true);
@@ -209,7 +200,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
- //   @Test(expected = Base.HeaderException.class)
+    //   @Test(expected = Base.HeaderException.class)
     public void testConcatProfileInvalidWrongColumnOrder() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "concat-profile-invalid-wrong-order.txt", neoDao, true);
@@ -221,7 +212,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
-//    @Test(expected = Base.FieldException.class)
+    //    @Test(expected = Base.FieldException.class)
 //    @Test
     public void testConcatProfiles() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
@@ -246,7 +237,7 @@ public class ConcatReaderTest extends TestResources{
         assertEquals(24, rc);
     }
 
-  //  @Test
+    //  @Test
     public void testEmptyColumns() throws Base.ParseException, IOException {
         ConcatProfilingIter prIter = new ConcatProfilingIter(
                 RESOURCE_PATH + "profiling-concat-test", neoDao, true);
@@ -269,5 +260,4 @@ public class ConcatReaderTest extends TestResources{
         }
         assertEquals(24, rc);
     }
-
 }
