@@ -5,14 +5,19 @@
     <groupId>CamiModules</groupId>
     <artifactId>CamiIO</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-
-    <packaging>pom</packaging>
-
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>neotax-repository</id>
+            <url>https://github.com/cerebis/neotax/tree/master/mzd/github/neotax</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
