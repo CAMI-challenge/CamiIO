@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +55,7 @@ public abstract class Base {
      * @return
      */
     public static boolean isBlank(String str) {
-        return StringUtils.isBlank(str);
+        return str == null || str.trim().length() == 0;
     }
 
     /**
@@ -392,6 +390,21 @@ public abstract class Base {
             }
         }
 
+        private boolean isEmpty(String cs) {
+            return cs == null || cs.length() == 0;
+        }
+
+        private int countMatches(String str, String sub) {
+            if (isEmpty(str) || isEmpty(sub)) {
+                return 0;
+            }
+            int count = 0;
+            for (int i = 0; (i = str.indexOf(sub, i)) != -1; i += sub.length()) {
+                count++;
+            }
+            return count;
+        }
+
         /**
          * Parse a header line for validity and store the result in
          * {@link #headerInfo}
@@ -400,7 +413,7 @@ public abstract class Base {
          * @throws HeaderException error while parsing the line
          */
         protected void parseHeaderLine(String line) throws HeaderException {
-            if (line.length() < 4 || StringUtils.countMatches(line, HEADER_SEP) != 1) {
+            if (line.length() < 4 || countMatches(line, HEADER_SEP) != 1) {
                 throw new HeaderException(String.format("malformed header line [%s]", line));
             }
 
@@ -411,12 +424,12 @@ public abstract class Base {
                                 "header does not appear to contain a key/value pair. line:%d [%s]",
                                 this.lineNumber, line));
             }
-            if (StringUtils.isEmpty(tok[0])) {
+            if (isEmpty(tok[0])) {
                 throw new HeaderException(
                         String.format(
                                 "header does not appear to contain a key. line:%d [%s]",
                                 this.lineNumber, line));
-            } else if (StringUtils.isEmpty(tok[1])) {
+            } else if (isEmpty(tok[1])) {
                 throw new HeaderException(
                         String.format(
                                 "header does not appear to contain a value. line:%d [%s]",
