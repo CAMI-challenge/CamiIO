@@ -9,7 +9,6 @@ import java.io.IOException;
 import static cami.io.Base.*;
 
 public class ConcatProfilingIter extends Profile.ValidatingReader {
-
     public ConcatProfilingIter(String fileName, String neoDBPath, Boolean checkHeader) throws Base.ParseException, IOException {
         super(fileName, neoDBPath, checkHeader);
     }

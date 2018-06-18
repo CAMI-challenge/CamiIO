@@ -1,7 +1,6 @@
 package cami.io;
 
 import mzd.taxonomy.neo.NeoDao;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +11,13 @@ import java.util.List;
  * Concrete implementation of the Taxonomic Binning format.
  */
 public class Binning extends Base {
-
-    // Binning constants
     private final static String BIN_TASK = "binning";
     private final static String BIN_VERSION_SUPPORT[] = {"0.9"};
     private final static String REFBASED_KEY = "referencebased";
     private final static String ASMBASED_KEY = "assemblybased";
     private final static String REPINFO_KEY = "replicateinfo";
     private final static String SAMPLEID_KEY = "sampleid";
-
-    private final static String BIN_MANDATORY_FIELDS[] = {VERSION_KEY, SAMPLEID_KEY};
+    private final static String[] BIN_MANDATORY_FIELDS = {VERSION_KEY, SAMPLEID_KEY};
 
     /**
      * A few common predefined column definition formats.
@@ -37,7 +33,6 @@ public class Binning extends Base {
      * Writer for CAMI Binning format.
      */
     public static class Writer extends Base.Writer {
-
         /**
          * Constructor writing binning information to file.
          *
@@ -76,7 +71,7 @@ public class Binning extends Base {
         }
 
         public boolean isReferenceBased() {
-            return getHeaderInfo().get(REFBASED_KEY) == "T";
+            return "T".equals(getHeaderInfo().get(REFBASED_KEY));
         }
 
         public void setAssemblyBased(boolean val) {
@@ -84,7 +79,7 @@ public class Binning extends Base {
         }
 
         public boolean isAssemblyBased() {
-            return getHeaderInfo().get(ASMBASED_KEY) == "T";
+            return "T".equals(getHeaderInfo().get(ASMBASED_KEY));
         }
 
         public void setReplicateInfo(boolean val) {
@@ -92,7 +87,7 @@ public class Binning extends Base {
         }
 
         public boolean isReplicateInfo() {
-            return getHeaderInfo().get(REPINFO_KEY) == "T";
+            return "T".equals(getHeaderInfo().get(REPINFO_KEY));
         }
     }
 
@@ -103,15 +98,12 @@ public class Binning extends Base {
         public Reader(String fileName, Boolean checkHeader) throws ParseException, IOException {
             super(fileName, BIN_TASK, BIN_VERSION_SUPPORT, BIN_MANDATORY_FIELDS, checkHeader);
         }
-
     }
-
 
     public static class ValidatingReader extends Base.Reader {
         private NeoDao neoDao;
         // a local neoDao instance will be shutdown with close()
         private boolean localNeoDao = false;
-
         private static int taxIDIndex = -1;
 
         public ValidatingReader(String fileName, NeoDao neoDao, Boolean checkHeader)
@@ -127,7 +119,6 @@ public class Binning extends Base {
             this.localNeoDao = true;
         }
 
-
         /**
          * Read the entire header record.
          *
@@ -139,14 +130,13 @@ public class Binning extends Base {
             super.readHeader();
             //set index of BINID columns (if provided)
             taxIDIndex = columnDefinition.indexOf("TAXID");
-
             equalsPattern();
         }
 
         private void equalsPattern() throws ParseException {
-//          check for the following allowed IDs
-//          "SEQUENCEID", "TAXID"
-//          "SEQUENCEID", "BINID"
+            // check for the following allowed IDs
+            // "SEQUENCEID", "TAXID"
+            // "SEQUENCEID", "BINID"
             List<String> firstTwoCol = columnDefinition.subList(0, 2);
             if (!firstTwoCol.equals(Arrays.asList(COLUMNDEF_BINID)) &&
                     !firstTwoCol.equals(Arrays.asList(COLUMNDEF_TAXID))) {
@@ -172,20 +162,16 @@ public class Binning extends Base {
                 if (taxIDIndex != -1) {
                     try {
                         int taxId = toInt(values[taxIDIndex]);
-
                         if (!getNeoDao().taxonExists(taxId)) {
                             getLogger().warn("Invalid TAXID [{}] on line:{}", taxId, lineNumber);
                             throw new FieldException("");
                         }
-
                     } catch (NumberFormatException ex) {
                         getLogger().warn("Invalid TAXID on line:{}", lineNumber);
                         throw new FieldException("");
                     }
-
                 }
             }
-
             return values;
         }
 

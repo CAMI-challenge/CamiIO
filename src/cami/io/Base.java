@@ -94,12 +94,12 @@ public abstract class Base {
     /**
      * Join an array of strings with {@link #DELIMITER}
      *
-     * @param vals - strings to join
+     * @param values - strings to join
      * @return
-     * @deprecated Use String.join(DELIMITER, vals) directly!
+     * @deprecated Use String.join(DELIMITER, values) directly!
      */
-    protected static String join(String[] vals) {
-        return String.join(DELIMITER, vals);
+    protected static String join(String[] values) {
+        return String.join(DELIMITER, values);
     }
 
     /**
@@ -123,17 +123,17 @@ public abstract class Base {
          * Create a write for output. The underlying
          * {@link java.io.BufferedWriter} is opened at instantiation.
          *
-         * @param fileName        - the file to open
-         * @param columnDefintion - defines the column definition for this file type
-         * @param create          - create the file.
+         * @param fileName         - the file to open
+         * @param columnDefinition - defines the column definition for this file type
+         * @param create           - create the file.
          * @throws IOException
          */
-        protected Writer(String fileName, String[] columnDefintion, boolean create) throws IOException {
+        protected Writer(String fileName, String[] columnDefinition, boolean create) throws IOException {
             this.headerInfo.put(TASK_KEY, "");
             this.headerInfo.put(VERSION_KEY, "");
             this.headerInfo.put(CONID_KEY, "");
             this.headerInfo.put(SAMPLEID_KEY, "");
-            this.columnDefinition = columnDefintion;
+            this.columnDefinition = columnDefinition;
 
             // File file = new File(fileName);
             if (create) {
@@ -291,10 +291,10 @@ public abstract class Base {
         public boolean isTaxPathSnUsed = false;
         protected int lineNumber = 0;
         protected BufferedReader reader = null;
-        private Map<String, String> headerInfo = new HashMap<String, String>();
+        private Map<String, String> headerInfo = new HashMap<>();
         protected List<String> columnDefinition = null;
-        private List<String> mandatoryFields = new ArrayList<String>();
-        private Map<String, List<String>> supports = new HashMap<String, List<String>>();
+        private List<String> mandatoryFields = new ArrayList<>();
+        private Map<String, List<String>> supports = new HashMap<>();
         protected Boolean checkHeader;
         private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -323,17 +323,11 @@ public abstract class Base {
          * @throws IOException
          *             error reading from file
          */
-//		public Reader(
-//				String filename,
-//				String taskName,
-//				String[] versionSupport,
-//				String[] extraMandatoryFields,
-//				String[] columnDefinition,
-//				Boolean checkHeader) throws ParseException, IOException {
-//
-////			this.supports.put(TASK_KEY, Arrays.asList(taskName));
+//		public Reader(String filename, String taskName, String[] versionSupport, String[] extraMandatoryFields,
+//				String[] columnDefinition, Boolean checkHeader) throws ParseException, IOException {
+//  		this.supports.put(TASK_KEY, Arrays.asList(taskName));
 //			this.supports.put(VERSION_KEY, Arrays.asList(versionSupport));
-//            this.columnDefinition = Arrays.asList(columnDefinition);
+//          this.columnDefinition = Arrays.asList(columnDefinition);
 //			this.mandatoryFields.addAll(Arrays.asList(extraMandatoryFields));
 //
 //			this.reader = new BufferedReader(new FileReader(filename));
@@ -357,13 +351,8 @@ public abstract class Base {
          * @throws ParseException error while reading the header
          * @throws IOException    error reading from file
          */
-        public Reader(
-                String filename,
-                String taskName,
-                String[] versionSupport,
-                String[] extraMandatoryFields,
-                Boolean checkHeader) throws ParseException, IOException {
-
+        public Reader(String filename, String taskName, String[] versionSupport, String[] extraMandatoryFields,
+                      Boolean checkHeader) throws ParseException, IOException {
             this.supports.put(TASK_KEY, Arrays.asList(taskName));
             this.supports.put(TAXONOMYID_KEY, Arrays.asList(taskName));
             this.supports.put(VERSION_KEY, Arrays.asList(versionSupport));
@@ -388,7 +377,6 @@ public abstract class Base {
                 this.lineNumber++;
             }
             return line;
-
         }
 
         /**
@@ -399,8 +387,7 @@ public abstract class Base {
         protected void checkMandatorySet() throws HeaderException {
             for (String mf : this.mandatoryFields) {
                 if (!this.headerInfo.containsKey(mf.toLowerCase())) {
-                    throw new HeaderException(String.format(
-                            "mandatory header field %s was not found", mf));
+                    throw new HeaderException(String.format("mandatory header field %s was not found", mf));
                 }
             }
         }
